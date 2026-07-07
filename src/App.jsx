@@ -1,6 +1,10 @@
-import"./App.css";
+import { useState } from "react";
+import "./App.css";
 
 function App() {
+  const [title, setTitle] = useState("");
+  const [amount, setAmount] = useState("");
+
   return (
     <div className="container">
       <h1>Expense Tracker</h1>
@@ -30,9 +34,19 @@ function App() {
       <div className="add-transaction">
         <h2>Add Transaction</h2>
 
-        <input type="text" placeholder="Enter title" />
+        <input
+         type="text"
+         placeholder="Enter title"
+         value={title}
+         onChange={(e) => setTitle(e.target.value)}
+       />
 
-        <input type="number" placeholder="Enter amount" />
+        <input
+        type="number"
+        placeholder="Enter amount"
+        value={amount}
+        onChange={(e) => setAmount(e.target.value)}
+      />
 
         <button onClick={() => alert("Transaction Added!")}>Add</button>
       </div>
