@@ -5,13 +5,35 @@ function App() {
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
 
-  return (
+  const [transactions, setTransactions] = useState([]);
+  const [balance, setBalance] = useState(0);
+  const addTransaction = () => {
+  if (title === "" || amount === "") {
+    alert("Please fill all fields");
+    return;
+  }
+
+  const newTransaction = {
+    title,
+    amount,
+  };
+   
+  setTransactions([...transactions, newTransaction]);
+
+  setBalance(balance + Number(amount));
+
+   setTitle("");
+   setAmount("");
+};
+
+   return(
+
     <div className="container">
       <h1>Expense Tracker</h1>
 
       <div className="balance">
         <h2>Balance</h2>
-        <p>₹0</p>
+        <p>₹{balance}</p>
       </div>
 
       <div className="summary">
@@ -27,9 +49,20 @@ function App() {
       </div>
 
       <div className="transactions">
-        <h2>Transactions</h2>
-        <p>No transactions yet.</p>
+  <h2>Transactions</h2>
+
+  {transactions.length === 0 ? (
+    <p>No transactions yet.</p>
+  ) : (
+    transactions.map((transaction, index) => (
+      <div key={index}>
+        <p>
+          {transaction.title} - ₹{transaction.amount}
+        </p>
       </div>
+    ))
+  )}
+</div>
 
       <div className="add-transaction">
         <h2>Add Transaction</h2>
@@ -48,7 +81,7 @@ function App() {
         onChange={(e) => setAmount(e.target.value)}
       />
 
-        <button onClick={() => alert("Transaction Added!")}>Add</button>
+        <button onClick={addTransaction}>Add</button>
       </div>
     </div>
   );
