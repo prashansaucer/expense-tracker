@@ -1,43 +1,111 @@
-import "./App.css";
-
-function App() {
-  return (
-    <div className="container">
-      <h1>Expense Tracker</h1>
-
-      <div className="balance">
-        <h2>Balance</h2>
-        <p>₹0</p>
-      </div>
-
-      <div className="summary">
-        <div className="income">
-          <h3>Income</h3>
-          <p>₹0</p>
-        </div>
-
-        <div className="expense">
-          <h3>Expense</h3>
-          <p>₹0</p>
-        </div>
-      </div>
-
-      <div className="transactions">
-        <h2>Transactions</h2>
-        <p>No transactions yet.</p>
-      </div>
-
-      <div className="add-transaction">
-        <h2>Add Transaction</h2>
-
-        <input type="text" placeholder="Enter title" />
-
-        <input type="number" placeholder="Enter amount" />
-
-        <button>Add</button>
-      </div>
-    </div>
-  );
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
 }
 
-export default App;
+body {
+  background: #1e1e2f;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  color: white;
+}
+
+.container {
+  width: 420px;
+  background: #2c2c3e;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.balance {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.balance p {
+  font-size: 28px;
+  font-weight: bold;
+  color: #00e676;
+}
+
+.summary {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.income,
+.expense {
+  width: 48%;
+  text-align: center;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.income {
+  background: #1b5e20;
+}
+
+.expense {
+  background: #b71c1c;
+}
+
+.transactions {
+  margin-bottom: 20px;
+}
+
+.transactions ul {
+  list-style: none;
+}
+
+.transactions li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #3a3a50;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+.transactions button {
+  background: red;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.add-transaction input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: none;
+}
+
+.add-transaction button {
+  width: 100%;
+  padding: 10px;
+  background: #00c853;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.add-transaction button:hover {
+  background: #00e676;
+}
