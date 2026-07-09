@@ -7,27 +7,37 @@ function App() {
 
   const [transactions, setTransactions] = useState([]);
   const [balance, setBalance] = useState(0);
+  const [income, setIncome] = useState(0);
+  const [expense, setExpense] = useState(0);
+
   const addTransaction = () => {
-  if (title === "" || amount === "") {
-    alert("Please fill all fields");
-    return;
-  }
+    if (title === "" || amount === "") {
+      alert("Please fill all fields");
+      return;
+    }
 
-  const newTransaction = {
-    title,
-    amount,
+    const value = Number(amount);
+
+    const newTransaction = {
+      title,
+      amount: value,
+    };
+
+    setTransactions([...transactions, newTransaction]);
+
+    setBalance(balance + value);
+
+    if (value > 0) {
+      setIncome(income + value);
+    } else {
+      setExpense(expense + Math.abs(value));
+    }
+
+    setTitle("");
+    setAmount("");
   };
-   
-  setTransactions([...transactions, newTransaction]);
 
-  setBalance(balance + Number(amount));
-
-   setTitle("");
-   setAmount("");
-};
-
-   return(
-
+  return (
     <div className="container">
       <h1>Expense Tracker</h1>
 
@@ -39,47 +49,47 @@ function App() {
       <div className="summary">
         <div className="income">
           <h3>Income</h3>
-          <p>₹0</p>
+          <p>₹{income}</p>
         </div>
 
         <div className="expense">
           <h3>Expense</h3>
-          <p>₹0</p>
+          <p>₹{expense}</p>
         </div>
       </div>
 
       <div className="transactions">
-  <h2>Transactions</h2>
+        <h2>Transactions</h2>
 
-  {transactions.length === 0 ? (
-    <p>No transactions yet.</p>
-  ) : (
-    transactions.map((transaction, index) => (
-      <div key={index}>
-        <p>
-          {transaction.title} - ₹{transaction.amount}
-        </p>
+        {transactions.length === 0 ? (
+          <p>No transactions yet.</p>
+        ) : (
+          transactions.map((transaction, index) => (
+            <div key={index}>
+              <p>
+                {transaction.title} - ₹{transaction.amount}
+              </p>
+            </div>
+          ))
+        )}
       </div>
-    ))
-  )}
-</div>
 
       <div className="add-transaction">
         <h2>Add Transaction</h2>
 
         <input
-         type="text"
-         placeholder="Enter title"
-         value={title}
-         onChange={(e) => setTitle(e.target.value)}
-       />
+          type="text"
+          placeholder="Enter title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
 
         <input
-        type="number"
-        placeholder="Enter amount"
-        value={amount}
-        onChange={(e) => setAmount(e.target.value)}
-      />
+          type="number"
+          placeholder="Enter amount"
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
+        />
 
         <button onClick={addTransaction}>Add</button>
       </div>
