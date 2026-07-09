@@ -24,7 +24,6 @@ function App() {
     };
 
     setTransactions([...transactions, newTransaction]);
-
     setBalance(balance + value);
 
     if (value > 0) {
@@ -35,6 +34,24 @@ function App() {
 
     setTitle("");
     setAmount("");
+  };
+
+  const deleteTransaction = (index) => {
+    const deletedTransaction = transactions[index];
+
+    if (deletedTransaction.amount > 0) {
+      setIncome(income - deletedTransaction.amount);
+    } else {
+      setExpense(expense - Math.abs(deletedTransaction.amount));
+    }
+
+    setBalance(balance - deletedTransaction.amount);
+
+    const updatedTransactions = transactions.filter(
+      (_, i) => i !== index
+    );
+
+    setTransactions(updatedTransactions);
   };
 
   return (
@@ -65,10 +82,14 @@ function App() {
           <p>No transactions yet.</p>
         ) : (
           transactions.map((transaction, index) => (
-            <div key={index}>
+            <div className="transaction-item" key={index}>
               <p>
                 {transaction.title} - ₹{transaction.amount}
               </p>
+
+              <button onClick={() => deleteTransaction(index)}>
+                ❌
+              </button>
             </div>
           ))
         )}
