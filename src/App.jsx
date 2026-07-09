@@ -4,11 +4,7 @@ import "./App.css";
 function App() {
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
-
   const [transactions, setTransactions] = useState([]);
-  const [balance, setBalance] = useState(0);
-  const [income, setIncome] = useState(0);
-  const [expense, setExpense] = useState(0);
 
   const addTransaction = () => {
     if (title === "" || amount === "") {
@@ -23,10 +19,25 @@ function App() {
     };
 
     setTransactions([...transactions, newTransaction]);
-
     setTitle("");
     setAmount("");
   };
+
+  const deleteTransaction = (id) => {
+    setTransactions(
+      transactions.filter((transaction) => transaction.id !== id)
+    );
+  };
+
+  const income = transactions
+    .filter((transaction) => transaction.amount > 0)
+    .reduce((total, transaction) => total + transaction.amount, 0);
+
+  const expense = transactions
+    .filter((transaction) => transaction.amount < 0)
+    .reduce((total, transaction) => total + transaction.amount, 0);
+
+  const balance = income + expense;
 
   return (
     <div className="container">
@@ -45,7 +56,7 @@ function App() {
 
         <div className="expense">
           <h3>Expense</h3>
-          <p>₹{expense}</p>
+          <p>₹{Math.abs(expense)}</p>
         </div>
       </div>
 
@@ -58,7 +69,15 @@ function App() {
           <ul>
             {transactions.map((transaction) => (
               <li key={transaction.id}>
-                {transaction.title} - ₹{transaction.amount}
+                <span>
+                  {transaction.title} - ₹{transaction.amount}
+                </span>
+
+                <button
+                  onClick={() => deleteTransaction(transaction.id)}
+                >
+                  Delete
+                </button>
               </li>
             ))}
           </ul>
@@ -82,8 +101,11 @@ function App() {
           onChange={(e) => setAmount(e.target.value)}
         />
 
+        <p>Use a positive amount for Income.</p>
+        <p>Use a negative amount for Expense.</p>
+
         <button onClick={addTransaction}>
-          Add
+          Add Transaction
         </button>
       </div>
     </div>
