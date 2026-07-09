@@ -16,42 +16,16 @@ function App() {
       return;
     }
 
-    const value = Number(amount);
-
     const newTransaction = {
-      title,
-      amount: value,
+      id: Date.now(),
+      title: title,
+      amount: Number(amount),
     };
 
     setTransactions([...transactions, newTransaction]);
-    setBalance(balance + value);
-
-    if (value > 0) {
-      setIncome(income + value);
-    } else {
-      setExpense(expense + Math.abs(value));
-    }
 
     setTitle("");
     setAmount("");
-  };
-
-  const deleteTransaction = (index) => {
-    const deletedTransaction = transactions[index];
-
-    if (deletedTransaction.amount > 0) {
-      setIncome(income - deletedTransaction.amount);
-    } else {
-      setExpense(expense - Math.abs(deletedTransaction.amount));
-    }
-
-    setBalance(balance - deletedTransaction.amount);
-
-    const updatedTransactions = transactions.filter(
-      (_, i) => i !== index
-    );
-
-    setTransactions(updatedTransactions);
   };
 
   return (
@@ -81,17 +55,13 @@ function App() {
         {transactions.length === 0 ? (
           <p>No transactions yet.</p>
         ) : (
-          transactions.map((transaction, index) => (
-            <div className="transaction-item" key={index}>
-              <p>
+          <ul>
+            {transactions.map((transaction) => (
+              <li key={transaction.id}>
                 {transaction.title} - ₹{transaction.amount}
-              </p>
-
-              <button onClick={() => deleteTransaction(index)}>
-                ❌
-              </button>
-            </div>
-          ))
+              </li>
+            ))}
+          </ul>
         )}
       </div>
 
@@ -112,7 +82,9 @@ function App() {
           onChange={(e) => setAmount(e.target.value)}
         />
 
-        <button onClick={addTransaction}>Add</button>
+        <button onClick={addTransaction}>
+          Add
+        </button>
       </div>
     </div>
   );
